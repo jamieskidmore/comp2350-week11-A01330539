@@ -93,22 +93,19 @@ router.get("/deleteUser", async (req, res) => {
     let userId = new ObjectId(req.query.id);
     console.log(userId);
     if (userId) {
-      // schema.validate(req.body);
       console.log("userId: " + userId);
-      // let deleteUser = await userModel.findByPk(userId);
-      let deleteUser = database
+      let deleteUser = await database
         .db("lab_example")
         .collection("users")
         .findOne({ _id: userId });
       console.log("deleteUser: ");
       console.log(deleteUser);
-      // if (deleteUser !== null) {
-      //   await deleteUser.destroy();
-      // }
-      await database
-        .db("lab_example")
-        .collection("users")
-        .deleteOne(deleteUser);
+      if (deleteUser) {
+        await database
+          .db("lab_example")
+          .collection("users")
+          .deleteOne({ _id: userId });
+      }
     }
     res.redirect("/");
   } catch (ex) {
