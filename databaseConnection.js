@@ -1,31 +1,18 @@
-const mysql = require('mysql2');
-
+const MongoClient = require("mongodb").MongoClient;
 const is_qoddi = process.env.IS_QODDI || false;
-
-const dbConfiQoddi = {
-	host: "us-cdbr-east-03.cleardb.com",
-	user: "b1ab7fb2ee03bc",
-	password: "2a484a2d",
-	database: "qoddi_3d208ad4bd6f421",
-	multipleStatements: false,
-	namedPlaceholders: true
-};
-
-const dbConfigLocal = {
-	host: "localhost",
-	user: "root",
-	password: "Password",
-	database: "lab_example",
-	multipleStatements: false,
-	namedPlaceholders: true
-};
-
+const qoddiURI =
+  "mongodb+srv://theMongoAdmin:accidentalLoginSteps@cluster0.hqfzvmq.mongodb.net/?retryWrites=true&w=majority";
+const localURI =
+  "mongodb+srv://theMongoAdmin:accidentalLoginSteps@cluster0.hqfzvmq.mongodb.net/?retryWrites=true&w=majority";
 if (is_qoddi) {
-	var database = mysql.createPool(dbConfiQoddi);
+  var database = new MongoClient(qoddiURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+} else {
+  var database = new MongoClient(localURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 }
-else {
-	var database = mysql.createPool(dbConfigLocal);
-}
-
 module.exports = database;
-		
