@@ -91,6 +91,7 @@ router.get("/deleteUser", async (req, res) => {
     console.log("delete user");
 
     let userId = new ObjectId(req.query.id);
+    console.log(userId);
     if (userId) {
       schema.validate(req.body);
       console.log("userId: " + userId);
