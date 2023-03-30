@@ -11,6 +11,16 @@ const { v4: uuid } = require("uuid");
 const ObjectId = require("mongodb").ObjectId;
 const Joi = require("joi");
 
+const schema = Joi.object({
+  first_name: Joi.string().max(10).required(),
+  last_name: Joi.string().max(10).required(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+  password: Joi.string().max(50).required(),
+});
+
 const passwordPepper = "SeCretPeppa4MySal+";
 
 router.get("/", async (req, res) => {
@@ -80,15 +90,17 @@ router.get("/deleteUser", async (req, res) => {
   try {
     console.log("delete user");
 
-    let userId = req.query.id;
+    let userId = new ObjectId(req.query.id);
     if (userId) {
+      schema.validate(req.body);
       console.log("userId: " + userId);
-      let deleteUser = await userModel.findByPk(userId);
+      // let deleteUser = await userModel.findByPk(userId);
       console.log("deleteUser: ");
       console.log(deleteUser);
       // if (deleteUser !== null) {
       //   await deleteUser.destroy();
       // }
+      await database.db("lab_example").collection("users").deleteOne(userId);
     }
     res.redirect("/");
   } catch (ex) {
@@ -101,6 +113,8 @@ router.get("/deleteUser", async (req, res) => {
 router.post("/addUser", async (req, res) => {
   try {
     console.log("form submit");
+
+    schema.validate(req.body);
 
     const password_salt = crypto.createHash("sha512");
 
