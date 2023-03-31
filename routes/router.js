@@ -87,25 +87,24 @@ router.get("/showPets", async (req, res) => {
 });
 
 router.get("/deleteUser", async (req, res) => {
-  console.log("id:  " + req.query.id);
   try {
     console.log("delete user");
-
-    let userId = req.query.id;
+    schema.validate(req.query.id);
+    let userId = new ObjectId(req.query.id);
     console.log(userId);
     if (userId) {
       console.log("userId: " + userId);
       let deleteUser = await database
         .db("lab_example")
         .collection("users")
-        .findOne({ _id: new ObjectId(userId) });
+        .findOne({ _id: userId });
       console.log("deleteUser: ");
       console.log(deleteUser);
       if (deleteUser) {
         await database
           .db("lab_example")
           .collection("users")
-          .deleteOne({ _id: new ObjectId(userId) });
+          .deleteOne({ _id: userId });
       }
     }
     res.redirect("/");
