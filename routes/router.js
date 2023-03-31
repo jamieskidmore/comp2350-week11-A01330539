@@ -105,7 +105,7 @@ router.get("/deleteUser", async (req, res) => {
         await database
           .db("lab_example")
           .collection("users")
-          .deleteOne({ _id: userId });
+          .deleteOne({ _id: new ObjectId(userId) });
       }
     }
     res.redirect("/");
