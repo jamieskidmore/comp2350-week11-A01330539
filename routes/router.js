@@ -88,7 +88,7 @@ router.get("/showPets", async (req, res) => {
 
 router.get("/deleteUser", async (req, res) => {
   console.log("body:");
-  console.log(req.params.id);
+  console.log(req.query.id);
   res.redirect("/");
   // try {
   //   console.log("delete user");
