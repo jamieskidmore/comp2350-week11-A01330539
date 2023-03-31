@@ -98,7 +98,7 @@ router.get("/deleteUser", async (req, res) => {
       let deleteUser = await database
         .db("lab_example")
         .collection("users")
-        .findOne({ _id: userId });
+        .findOne({ _id: new ObjectId(userId) });
       console.log("deleteUser: ");
       console.log(deleteUser);
       if (deleteUser) {
