@@ -87,32 +87,33 @@ router.get("/showPets", async (req, res) => {
 });
 
 router.get("/deleteUser", async (req, res) => {
-  try {
-    console.log("delete user");
+  console.log(req.body.id);
+  // try {
+  //   console.log("delete user");
 
-    let userId = new ObjectId(req.query.id);
-    console.log(userId);
-    if (userId) {
-      console.log("userId: " + userId);
-      let deleteUser = await database
-        .db("lab_example")
-        .collection("users")
-        .findOne({ _id: userId });
-      console.log("deleteUser: ");
-      console.log(deleteUser);
-      if (deleteUser) {
-        await database
-          .db("lab_example")
-          .collection("users")
-          .deleteOne({ _id: userId });
-      }
-    }
-    res.redirect("/");
-  } catch (ex) {
-    res.render("error", { message: "Error connecting to MongoDB" });
-    console.log("Error connecting to MongoDB");
-    console.log(ex);
-  }
+  //   let userId = new ObjectId(req.query.id);
+  //   console.log(userId);
+  //   if (userId) {
+  //     console.log("userId: " + userId);
+  //     let deleteUser = await database
+  //       .db("lab_example")
+  //       .collection("users")
+  //       .findOne({ _id: userId });
+  //     console.log("deleteUser: ");
+  //     console.log(deleteUser);
+  //     if (deleteUser) {
+  //       await database
+  //         .db("lab_example")
+  //         .collection("users")
+  //         .deleteOne({ _id: userId });
+  //     }
+  //   }
+  //   res.redirect("/");
+  // } catch (ex) {
+  //   res.render("error", { message: "Error connecting to MongoDB" });
+  //   console.log("Error connecting to MongoDB");
+  //   console.log(ex);
+  // }
 });
 
 router.post("/addUser", async (req, res) => {
